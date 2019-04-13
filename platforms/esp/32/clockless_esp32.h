@@ -49,7 +49,7 @@
  * co-exist. To switch to this mode, add the following directive
  * before you include FastLED.h:
  *
- *      #define FASTLED_RMT_BUILTIN_DRIVER 1
+ *      #define FASTLED_RMT_BUILTIN_DRIVER
  *
  * There may be a performance penalty for using this mode. We need to
  * compute the RMT signal for the entire LED strip ahead of time,
@@ -403,7 +403,7 @@ protected:
     // -- Start up the next controller
     //    This method is static so that it can dispatch to the
     //    appropriate startOnChannel method of the given controller.
-    static void IRAM_ATTR startNext(int channel)
+    static void startNext(int channel)
     {
         if (gNext < gNumControllers) {
             ClocklessController * pController = static_cast<ClocklessController*>(gControllers[gNext]);
@@ -415,7 +415,7 @@ protected:
     // -- Start this controller on the given channel
     //    This function just initiates the RMT write; it does not wait
     //    for it to finish.
-    void IRAM_ATTR startOnChannel(int channel)
+    void startOnChannel(int channel)
     {
         // -- Assign this channel and configure the RMT
         mRMT_channel = rmt_channel_t(channel);
@@ -460,7 +460,7 @@ protected:
     //    handler (below), or as a callback from the built-in
     //    interrupt handler. It is static because we don't know which
     //    controller is done until we look it up.
-    static void IRAM_ATTR doneOnChannel(rmt_channel_t channel, void * arg)
+    static void doneOnChannel(rmt_channel_t channel, void * arg)
     {
         if (channel >= FASTLED_RMT_MAX_CHANNELS) return;
 
@@ -526,7 +526,7 @@ protected:
     //    buffer with pixel data. It also handles the case where the
     //    pixel data is exhausted, so we need to fill the RMT buffer
     //    with zeros to signal that it's done.
-    void IRAM_ATTR fillHalfRMTBuffer()
+    void fillHalfRMTBuffer()
     {
         uint32_t one_val = mOne.val;
         uint32_t zero_val = mZero.val;

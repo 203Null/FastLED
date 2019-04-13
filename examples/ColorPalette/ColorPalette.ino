@@ -165,7 +165,7 @@ const TProgmemPalette16 myRedWhiteBluePalette_p PROGMEM =
 
 
 
-// Additional notes on FastLED compact palettes:
+// Additionl notes on FastLED compact palettes:
 //
 // Normally, in computer graphics, the palette (or "color lookup table")
 // has 256 entries, each containing a specific 24-bit RGB color.  You can then

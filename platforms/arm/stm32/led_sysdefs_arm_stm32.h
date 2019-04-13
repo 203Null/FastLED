@@ -1,27 +1,14 @@
 #ifndef __INC_LED_SYSDEFS_ARM_SAM_H
 #define __INC_LED_SYSDEFS_ARM_SAM_H
 
-#if defined(STM32F10X_MD)
+#ifdef STM32F10X_MD
 
- #include <application.h>
+#include "application.h"
 
- #define FASTLED_NAMESPACE_BEGIN namespace NSFastLED {
- #define FASTLED_NAMESPACE_END }
- #define FASTLED_USING_NAMESPACE using namespace NSFastLED;
+#define FASTLED_NAMESPACE_BEGIN namespace NSFastLED {
+#define FASTLED_NAMESPACE_END }
+#define FASTLED_USING_NAMESPACE using namespace NSFastLED;
 
- // reusing/abusing cli/sei defs for due
- #define cli()  __disable_irq(); __disable_fault_irq();
- #define sei() __enable_irq(); __enable_fault_irq();
-
-#elif defined (__STM32F1__)
-
- #include "cm3_regs.h"
-
- #define cli() nvic_globalirq_disable()
- #define sei() nvic_globalirq_enable()
-
-#else
- #error "Platform not supported"
 #endif
 
 #define FASTLED_ARM
@@ -37,6 +24,17 @@
 
 #if FASTLED_ALLOW_INTERRUPTS == 1
 #define FASTLED_ACCURATE_CLOCK
+#endif
+
+#ifdef STM32F10X_MD
+// reuseing/abusing cli/sei defs for due
+#define cli()  __disable_irq(); __disable_fault_irq();
+#define sei() __enable_irq(); __enable_fault_irq();
+#endif
+
+#ifdef __STM32F1__
+#define cli() nvic_globalirq_disable()
+#define sei() nvic_globalirq_enable()
 #endif
 
 // pgmspace definitions
@@ -56,6 +54,7 @@ typedef volatile       uint8_t RwReg; /**< Read-Write 8-bit register (volatile u
 #define FASTLED_NO_PINMAP
 
 #ifndef F_CPU
- #define F_CPU 72000000
+#define F_CPU 72000000
 #endif
+
 #endif
